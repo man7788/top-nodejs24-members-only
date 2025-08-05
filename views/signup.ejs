@@ -8,20 +8,15 @@
   <body>
     <h1><%=title %></h1>
     <form method="POST" action="">
-      <label for="first-name">First Name:</label><br />
+      <label for="firstName">First Name:</label><br />
       <input
         type="text"
-        name="first-name"
-        id="first-name"
+        name="firstName"
+        id="firstName"
         required="true"
       /><br />
-      <label for="last-name">Last Name:</label><br />
-      <input
-        type="text"
-        name="last-name"
-        id="last-name"
-        required="true"
-      /><br />
+      <label for="lastName">Last Name:</label><br />
+      <input type="text" name="lastName" id="lastName" required="true" /><br />
       <label for="email">Email:</label><br />
       <input type="email" name="email" id="email" required="true" /><br />
       <label for="password">Password:</label><br />
@@ -31,14 +26,21 @@
         id="password"
         required="true"
       /><br />
-      <label for="confirm-password">Confirm Password:</label><br />
+      <label for="confirmPassword">Confirm Password:</label><br />
       <input
         type="password"
-        name="confirm-password"
-        id="confirm-password"
+        name="confirmPassword"
+        id="confirmPassword"
         required="true"
       /><br />
       <button type="submit">Submit</button>
     </form>
+    <% if (locals.errors) {%>
+    <ul>
+      <%errors.forEach((error)=>{%>
+      <li><%= error.msg %></li>
+      <%})%>
+    </ul>
+    <%}%>
   </body>
 </html>
