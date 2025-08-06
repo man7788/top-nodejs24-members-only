@@ -17,6 +17,7 @@ indexRouter.get(
     if (req.isAuthenticated()) {
       res.redirect('/members-only');
     }
+    next();
   },
   indexController.getIndex
 );
