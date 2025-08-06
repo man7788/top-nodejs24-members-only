@@ -21,7 +21,14 @@ const validateUser = [
 ];
 
 exports.getIndex = (req, res) => {
-  res.render('index', { title: 'Members Only' });
+  const messages = req.flash('error');
+  const errors = [];
+  if (messages) {
+    messages.forEach((message) => {
+      errors.push({ msg: message });
+    });
+  }
+  res.render('index', { title: 'Members Only', errors });
 };
 
 exports.postLogin = [
@@ -30,6 +37,7 @@ exports.postLogin = [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
+      console.log(errors.array());
       return res
         .status(400)
         .render('index', { title: 'Members Only', errors: errors.array() });
@@ -39,6 +47,7 @@ exports.postLogin = [
   passport.authenticate('local', {
     successRedirect: '/members-only',
     failureRedirect: '/log-in',
+    failureFlash: true,
   }),
 ];
 
