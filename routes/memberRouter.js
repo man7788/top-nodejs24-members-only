@@ -1,8 +1,19 @@
 const { Router } = require('express');
+
 const memberController = require('../controllers/memberController');
 
 const memberRouter = Router();
 
-memberRouter.get('/', memberController.getMember);
+memberRouter.get(
+  '/',
+  (req, res, next) => {
+    if (req.isAuthenticated()) {
+      next();
+    } else {
+      res.redirect('/log-in');
+    }
+  },
+  memberController.getMember
+);
 
 module.exports = memberRouter;
