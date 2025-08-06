@@ -1,6 +1,7 @@
 const db = require('../db/queries');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 const nameErr = 'must be between 1 and 255 characters.';
 const emailErr = 'format is not correct.';
@@ -45,7 +46,7 @@ exports.getSignup = (req, res) => {
 
 exports.postSignup = [
   validateUser,
-  async (req, res) => {
+  async (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -61,7 +62,10 @@ exports.postSignup = [
       req.body.email,
       hashedPassword
     );
-
-    res.redirect(`/members-only`);
+    next();
   },
+  passport.authenticate('local', {
+    successRedirect: '/members-only',
+    failureRedirect: '/log-in',
+  }),
 ];
