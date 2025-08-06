@@ -15,3 +15,33 @@ exports.createUser = async (firstName, lastName, email, password) => {
   const { rows } = await pool.query(queries, values);
   return rows;
 };
+
+exports.readUserByEmail = async (email) => {
+  const queries = `
+  SELECT
+    *
+  FROM
+    users
+  WHERE 
+    email = $1;
+  `;
+  const values = [email];
+  const { rows } = await pool.query(queries, values);
+  return rows;
+};
+
+exports.readUserById = async (id) => {
+  const queries = `
+  SELECT 
+    id,
+    first_name || ' ' || last_name AS full_name,
+    membership  
+  FROM
+    users
+  WHERE 
+    id = $1;
+  `;
+  const values = [id];
+  const { rows } = await pool.query(queries, values);
+  return rows;
+};
