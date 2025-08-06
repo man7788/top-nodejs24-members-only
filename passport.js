@@ -11,7 +11,7 @@ const verifyCallback = async (email, password, done) => {
     const user = result[0];
 
     if (!user) {
-      return done(null, false, { message: 'Incorrect username' });
+      return done(null, false, { message: 'Incorrect email' });
     }
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
@@ -33,6 +33,10 @@ passport.deserializeUser(async (id, done) => {
   try {
     const result = await db.readUserById(id);
     const user = result[0];
+
+    if (!user) {
+      return done(null, false, { message: 'User not found' });
+    }
 
     done(null, user);
   } catch (err) {
