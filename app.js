@@ -1,6 +1,11 @@
-const express = require('express');
-const app = express();
+require('dotenv').config();
+
 const path = require('node:path');
+const express = require('express');
+const session = require('express-session');
+var passport = require('passport');
+
+const app = express();
 
 const indexRouter = require('./routes/indexRouter');
 const signupRouter = require('./routes/signupRouter');
@@ -12,6 +17,24 @@ app.set('view engine', 'ejs');
 app.use(express.static(assetsPath));
 app.use(express.urlencoded({ extended: true }));
 
+// SESSION SETUP //
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// PASSPORT SETUP //
+require('./passport');
+app.use(passport.session());
+app.use((req, res, next) => {
+  req.user && (res.locals.currentUser = req.user);
+  next();
+});
+
+// ROUTES //
 app.use('/', indexRouter);
 app.use('/sign-up', signupRouter);
 app.use('/members-only', memberRouter);
