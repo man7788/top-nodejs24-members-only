@@ -41,3 +41,12 @@ exports.postLogin = [
     failureRedirect: '/log-in',
   }),
 ];
+
+exports.getLogout = (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/');
+  });
+};
