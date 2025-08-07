@@ -11,6 +11,7 @@ const app = express();
 const indexRouter = require('./routes/indexRouter');
 const signupRouter = require('./routes/signupRouter');
 const memberRouter = require('./routes/memberRouter');
+const messageRouter = require('./routes/messageRouter');
 
 const assetsPath = path.join(__dirname, 'public');
 app.set('views', path.join(__dirname, 'views'));
@@ -40,6 +41,7 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/sign-up', signupRouter);
 app.use('/members-only', memberRouter);
+app.use('/messages', messageRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
