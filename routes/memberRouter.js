@@ -16,4 +16,6 @@ memberRouter.get(
   memberController.getMember
 );
 
+memberRouter.post('/join', memberController.postSecretCode);
+
 module.exports = memberRouter;
