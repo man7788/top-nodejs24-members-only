@@ -9,7 +9,7 @@
     <% if (locals.currentUser) { %>
     <h1>Welcome Back <%= locals.currentUser.full_name%></h1>
     <% if (locals.currentUser.membership) { %>
-    <form action="/members-only/messages" method="POST">
+    <form action="/messages" method="POST">
       <label for="message">Message: </label><br />
       <textarea
         id="message"
@@ -30,13 +30,13 @@
       /><br />
       <button type="submit">Submit</button>
     </form>
-    <% if (locals.errors) {%>
+    <% } %> <% } %> <% if (locals.errors) {%>
     <ul>
       <%errors.forEach((error)=>{%>
       <li><%= error.msg %></li>
-      <%})%>
+      <% }) %>
     </ul>
-    <%}%> <% } %> <% } %>
+    <% } %>
     <a href="/log-out">Log out</a>
   </body>
 </html>
