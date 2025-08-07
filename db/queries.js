@@ -45,3 +45,23 @@ exports.readUserById = async (id) => {
   const { rows } = await pool.query(queries, values);
   return rows;
 };
+
+exports.readSecretCode = async () => {
+  const queries = `
+  SELECT * 
+  FROM secrets
+  `;
+  const { rows } = await pool.query(queries);
+  return rows;
+};
+
+exports.updateUserById = async (id) => {
+  const queries = `
+  UPDATE users
+  SET membership = true
+  WHERE id = $1;
+  `;
+  const values = [id];
+  const { rows } = await pool.query(queries, values);
+  return rows;
+};
