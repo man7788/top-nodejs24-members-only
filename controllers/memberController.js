@@ -12,6 +12,7 @@ const validateSecret = [
 ];
 
 exports.getMember = (req, res) => {
+  res.locals.errors = req.flash('messages');
   res.render('member', { title: 'Welcome to Members Only' });
 };
 
