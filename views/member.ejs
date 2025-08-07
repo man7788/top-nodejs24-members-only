@@ -6,10 +6,37 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <% if (locals.currentUser) {%>
-    <!-- EXPLICTLY CAUSING ERROR, SHOULD QUERY LESS INFO FROM USER  -->
+    <% if (locals.currentUser) { %>
     <h1>Welcome Back <%= locals.currentUser.full_name%></h1>
+    <% if (locals.currentUser.membership) { %>
+    <form action="/members-only/messages" method="POST">
+      <label for="message">Message: </label><br />
+      <textarea
+        id="message"
+        name="message"
+        placeholder="Enter Message"
+      ></textarea>
+      <br />
+      <button type="submit">Submit</button>
+    </form>
+    <% } else { %>
+    <form action="/members-only/join" method="POST">
+      <label for="passcode">Secret Passcode: </label><br />
+      <input
+        type="text"
+        id="passcode"
+        name="passcode"
+        placeholder="Enter Passcode Here"
+      /><br />
+      <button type="submit">Submit</button>
+    </form>
+    <% if (locals.errors) {%>
+    <ul>
+      <%errors.forEach((error)=>{%>
+      <li><%= error.msg %></li>
+      <%})%>
+    </ul>
+    <%}%> <% } %> <% } %>
     <a href="/log-out">Log out</a>
-    <% } %>
   </body>
 </html>
