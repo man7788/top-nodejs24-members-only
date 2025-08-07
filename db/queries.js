@@ -65,3 +65,16 @@ exports.updateUserById = async (id) => {
   const { rows } = await pool.query(queries, values);
   return rows;
 };
+
+exports.createMessage = async (id, message) => {
+  const queries = `
+  INSERT INTO messages (
+    user_id,
+    message
+  )
+  VALUEs ($1, $2);
+  `;
+  const values = [id, message];
+  const { rows } = await pool.query(queries, values);
+  return rows;
+};
