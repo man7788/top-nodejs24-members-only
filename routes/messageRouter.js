@@ -12,4 +12,10 @@ messageRouter.post(
   messageController.postMessage
 );
 
+messageRouter.post(
+  '/:id/delete',
+  isAuth.failStatus(401, '401 Unauthorized'),
+  messageController.deleteMessage
+);
+
 module.exports = messageRouter;
