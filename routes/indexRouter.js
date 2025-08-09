@@ -1,26 +1,23 @@
 const { Router } = require('express');
+const { Authenticator } = require('./authMiddleware');
+
 const indexController = require('../controllers/indexController');
 
 const indexRouter = Router();
+const isAuth = new Authenticator();
 
-indexRouter.get('/', (req, res, next) => {
-  if (req.isAuthenticated()) {
-    res.redirect('/members-only');
-  } else {
-    res.redirect('/log-in');
-  }
-});
+indexRouter.get(
+  '/',
+  isAuth.failRedirect('/log-in'),
+  isAuth.redirect('/members-only')
+);
 
 indexRouter.get(
   '/log-in',
-  (req, res, next) => {
-    if (req.isAuthenticated()) {
-      res.redirect('/members-only');
-    }
-    next();
-  },
+  isAuth.redirect('members-only'),
   indexController.getIndex
 );
+
 indexRouter.post('/log-in', indexController.postLogin);
 
 indexRouter.get('/log-out', indexController.getLogout);
