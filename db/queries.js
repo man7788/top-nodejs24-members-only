@@ -92,3 +92,19 @@ exports.readAllMessagesSimple = async () => {
   const { rows } = await pool.query(queries);
   return rows;
 };
+
+exports.readAllMessages = async () => {
+  const queries = `
+  SELECT
+    messages.id,
+    first_name || ' ' || last_name AS full_name,
+    message,
+    to_char(created, 'YYYY-MM-DD HH24:MI:SS') AS created_datetime
+  FROM messages
+  JOIN users
+  ON user_id = users.id
+  ORDER BY created;
+  `;
+  const { rows } = await pool.query(queries);
+  return rows;
+};
