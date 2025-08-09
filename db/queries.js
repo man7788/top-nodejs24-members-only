@@ -70,11 +70,13 @@ exports.createMessage = async (id, message) => {
   const queries = `
   INSERT INTO messages (
     user_id,
-    message
+    message,
+    created
   )
-  VALUEs ($1, $2);
+  VALUEs ($1, $2, $3);
   `;
-  const values = [id, message];
+  const date = new Date().toISOString();
+  const values = [id, message, date];
   const { rows } = await pool.query(queries, values);
   return rows;
 };
