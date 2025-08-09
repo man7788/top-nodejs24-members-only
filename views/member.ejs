@@ -8,7 +8,19 @@
   <body>
     <% if (locals.currentUser) { %>
     <h1>Welcome Back <%= locals.currentUser.full_name%></h1>
+
     <% if (locals.currentUser.membership) { %>
+    <ul>
+      <%if (messages) {%> <% messages.map((message) => { %>
+      <li>
+        <p><%= message.full_name %> | <%= message.created_datetime %></p>
+        <%= message.message %> <br />
+      </li>
+      <% }) %> <% } else { %>
+      <li>There are no messages.</li>
+      <% } %>
+    </ul>
+
     <form action="/messages" method="POST">
       <label for="message">Message: </label><br />
       <textarea
@@ -37,6 +49,7 @@
       <% }) %>
     </ul>
     <% } %>
+
     <a href="/log-out">Log out</a>
   </body>
 </html>
