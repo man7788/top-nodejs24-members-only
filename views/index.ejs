@@ -7,6 +7,15 @@
   </head>
   <body>
     <h1><%=title %></h1>
+
+    <ul>
+      <%if (messages) {%> <% messages.map((message) => { %>
+      <li><%= message.message %></li>
+      <% })%> <% } else { %>
+      <li>There are no messages.</li>
+      <% } %>
+    </ul>
+
     <form action="/log-in" method="POST">
       <label for="email">Email: </label><br />
       <input
@@ -32,6 +41,7 @@
       <%})%>
     </ul>
     <%}%>
+
     <a href="/sign-up">Sign Up</a>
   </body>
 </html>
