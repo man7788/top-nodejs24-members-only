@@ -15,6 +15,7 @@ messageRouter.post(
 messageRouter.post(
   '/:id/delete',
   isAuth.failStatus(401, '401 Unauthorized'),
+  isAuth.failAdmin(403, '403 Forbidden'),
   messageController.deleteMessage
 );
 
