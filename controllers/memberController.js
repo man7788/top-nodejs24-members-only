@@ -11,9 +11,10 @@ const validateSecret = [
     .escape(),
 ];
 
-exports.getMember = (req, res) => {
+exports.getMember = async (req, res) => {
   res.locals.errors = req.flash('messages');
-  res.render('member', { title: 'Welcome to Members Only' });
+  const messages = await db.readAllMessages();
+  res.render('member', { title: 'Welcome to Members Only', messages });
 };
 
 exports.postSecretCode = [
