@@ -1,8 +1,15 @@
 const { Router } = require('express');
+const { Authenticator } = require('./authMiddleware');
+
 const messageController = require('../controllers/messageController');
 
 const messageRouter = Router();
+const isAuth = new Authenticator();
 
-messageRouter.post('/', messageController.postMessage);
+messageRouter.post(
+  '/',
+  isAuth.failStatus(401, '401 Unauthorized'),
+  messageController.postMessage
+);
 
 module.exports = messageRouter;
