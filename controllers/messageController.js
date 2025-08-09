@@ -25,3 +25,8 @@ exports.postMessage = [
     res.redirect('/members-only');
   },
 ];
+
+exports.deleteMessage = async (req, res, next) => {
+  await db.deleteMessage(req.body.delete);
+  res.redirect('/members-only');
+};
