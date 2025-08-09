@@ -17,6 +17,15 @@ exports.Authenticator = class authClass {
     };
   }
 
+  failAdmin(code, message) {
+    return (req, res, next) => {
+      if (!req.isAuthenticated() || !req.user.admin) {
+        return res.status(code).send(message);
+      }
+      next();
+    };
+  }
+
   redirect(url) {
     return (req, res, next) => {
       if (req.isAuthenticated()) {
