@@ -35,7 +35,8 @@ exports.readUserById = async (id) => {
   SELECT 
     id,
     first_name || ' ' || last_name AS full_name,
-    membership  
+    membership,
+    admin  
   FROM
     users
   WHERE 
@@ -43,15 +44,6 @@ exports.readUserById = async (id) => {
   `;
   const values = [id];
   const { rows } = await pool.query(queries, values);
-  return rows;
-};
-
-exports.readSecretCode = async () => {
-  const queries = `
-  SELECT * 
-  FROM secrets
-  `;
-  const { rows } = await pool.query(queries);
   return rows;
 };
 
@@ -66,18 +58,12 @@ exports.updateUserById = async (id) => {
   return rows;
 };
 
-exports.createMessage = async (id, message) => {
+exports.readSecretCode = async () => {
   const queries = `
-  INSERT INTO messages (
-    user_id,
-    message,
-    created
-  )
-  VALUEs ($1, $2, $3);
+  SELECT * 
+  FROM secrets
   `;
-  const date = new Date().toISOString();
-  const values = [id, message, date];
-  const { rows } = await pool.query(queries, values);
+  const { rows } = await pool.query(queries);
   return rows;
 };
 
@@ -106,5 +92,30 @@ exports.readAllMessages = async () => {
   ORDER BY created;
   `;
   const { rows } = await pool.query(queries);
+  return rows;
+};
+
+exports.createMessage = async (id, message) => {
+  const queries = `
+  INSERT INTO messages (
+    user_id,
+    message,
+    created
+  )
+  VALUEs ($1, $2, $3);
+  `;
+  const date = new Date().toISOString();
+  const values = [id, message, date];
+  const { rows } = await pool.query(queries, values);
+  return rows;
+};
+
+exports.deleteMessage = async (id) => {
+  const queries = `
+  DELETE FROM messages
+  WHERE id = $1
+  `;
+  const values = [id];
+  const { rows } = await pool.query(queries, values);
   return rows;
 };
