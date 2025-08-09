@@ -1,3 +1,4 @@
+const db = require('../db/queries');
 const { body, validationResult } = require('express-validator');
 const passport = require('passport');
 
@@ -20,15 +21,16 @@ const validateUser = [
     .escape(),
 ];
 
-exports.getIndex = (req, res) => {
-  const messages = req.flash('error');
+exports.getIndex = async (req, res) => {
+  const errMessages = req.flash('error');
   const errors = [];
-  if (messages) {
-    messages.forEach((message) => {
+  if (errMessages) {
+    errMessages.forEach((message) => {
       errors.push({ msg: message });
     });
   }
-  res.render('index', { title: 'Members Only', errors });
+  const messages = await db.readAllMessagesSimple();
+  res.render('index', { title: 'Members Only', messages, errors });
 };
 
 exports.postLogin = [
