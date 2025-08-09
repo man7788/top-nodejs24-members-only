@@ -22,7 +22,7 @@ exports.Authenticator = class authClass {
       if (req.isAuthenticated()) {
         return res.redirect(url);
       }
-      res.status(401).send('401 Unauthorized');
+      next();
     };
   }
 };
