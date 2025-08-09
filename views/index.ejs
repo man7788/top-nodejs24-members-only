@@ -9,7 +9,7 @@
     <h1><%=title %></h1>
 
     <ul>
-      <%if (messages) {%> <% messages.map((message) => { %>
+      <%if (messages.length > 0) {%> <% messages.map((message) => { %>
       <li><%= message.message %></li>
       <% })%> <% } else { %>
       <li>There are no messages.</li>
