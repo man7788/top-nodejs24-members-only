@@ -80,3 +80,15 @@ exports.createMessage = async (id, message) => {
   const { rows } = await pool.query(queries, values);
   return rows;
 };
+
+exports.readAllMessagesSimple = async () => {
+  const queries = `
+  SELECT
+    id,
+    message
+  FROM messages
+  ORDER BY created;
+  `;
+  const { rows } = await pool.query(queries);
+  return rows;
+};
