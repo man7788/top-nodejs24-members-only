@@ -11,10 +11,16 @@
 
     <% if (locals.currentUser.membership) { %>
     <ul>
-      <%if (messages) {%> <% messages.map((message) => { %>
+      <%if (messages.length > 0) {%> <% messages.map((message) => { %>
       <li>
         <p><%= message.full_name %> | <%= message.created_datetime %></p>
         <%= message.message %> <br />
+        <% if (locals.currentUser.admin) { %>
+        <form action="/messages/<%= message.id %>/delete" method="POST">
+          <input type="hidden" name="delete" value="<%= message.id %>" />
+          <button type="submit">Delete</button>
+        </form>
+        <% } %>
       </li>
       <% }) %> <% } else { %>
       <li>There are no messages.</li>
